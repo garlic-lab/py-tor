@@ -1,0 +1,15 @@
+#!/bin/bash
+
+INT=$1
+
+sudo -v
+
+#while true; do sudo -n true; sleep 60; kill -0 "$$" || exit; done 2>/dev/null &
+
+sudo networksetup -setsocksfirewallproxystate $INT off
+sudo networksetup -setsocksfirewallproxy $INT 127.0.0.1 9050 off
+sudo networksetup -setsocksfirewallproxystate $INT on
+echo "Proxy SOCKS 127.0.0.1:9050 enabled"
+echo "Starting tor process"
+
+tor
