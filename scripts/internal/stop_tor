@@ -1,0 +1,7 @@
+#!/bin/bash
+
+INT=$1
+echo $INT
+
+sudo networksetup -setsocksfirewallproxystate $INT off
+echo "Proxy SOCKS 127.0.0.1:9050 disabled"

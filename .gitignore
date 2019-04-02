@@ -24,6 +24,7 @@ wheels/
 .installed.cfg
 *.egg
 MANIFEST
+.DS_Store
 
 # PyInstaller
 #  Usually these files are written by a python script from a template
@@ -89,6 +90,8 @@ venv/
 ENV/
 env.bak/
 venv.bak/
+.vscode/
+settings.json
 
 # Spyder project settings
 .spyderproject
@@ -102,3 +105,5 @@ venv.bak/
 
 # mypy
 .mypy_cache/
+.vscode/
+settings.json
