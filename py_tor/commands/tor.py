@@ -3,7 +3,7 @@ import py_tor.utility as utility
 
 def run(arg, interface):
     try:
-        rootDir = os.path.abspath(os.curdir)
+        rootDir = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
         if arg == "start":
             command = rootDir + "/scripts/internal/start_tor " + interface            
         else:
