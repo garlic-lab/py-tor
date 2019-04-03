@@ -44,7 +44,10 @@ Use the following command to startup Tor using default configurations
 ```sh
 py-tor tor start
 ```
-and stop using 
+
+use `--interface=INTERFACE` to specify settings interface, default value `Wi-Fi`.
+
+Stop Tor and reset settings using  the following command
 ```sh
 py-tor tor stop
 ```
