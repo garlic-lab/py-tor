@@ -1,4 +1,5 @@
 import os
+import requests 
 import py_tor.utility as utility
 
 def run(arg, interface):
@@ -12,3 +13,28 @@ def run(arg, interface):
         utility.subprocess_cmd(command)
     except Exception as e:
         raise e
+
+def status():
+    try:
+        print("STATUS:")
+        session = requests.session()
+        session.proxies = {}
+        session.proxies['http'] = 'socks5h://localhost:9050'
+        session.proxies['https'] = 'socks5h://localhost:9050'
+
+        oldIp = requests.get('https://api.ipify.org/?format=json')
+        newIp = session.get('https://api.ipify.org/?format=json')
+
+        print("Your IP without Tor: " + oldIp.text)
+        print("Your IP with Tor " + newIp.text)
+
+        # Todo: Check view local config and if tor process is up
+        r = session.get("https://check.torproject.org/")
+        print(r.status_code)
+        #index = r.text.index("Sorry. You are not using Tor.")
+        #print(index)
+        print(r.text)
+
+    except Exception as e:
+        print(e)
+        print("NO....")
