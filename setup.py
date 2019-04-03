@@ -4,7 +4,7 @@ setup(
     name="py-tor",
     version="0.1",
     packages=find_packages(),
-    install_requires=['Click==7.0'],
+    install_requires=['Click==7.0', 'requests==2.21.0', 'requests[socks]'],
     include_package_data=True,
     entry_points={
         'console_scripts': [

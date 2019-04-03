@@ -40,16 +40,26 @@ Commands:
 so you can use the command `py-tor install` to install CLI dependencies.
 
 ### Tor
+#### Startup
 Use the following command to startup Tor using default configurations
 ```sh
 py-tor tor start
 ```
-and stop using 
+and leaves the process pending.
+
+Use `--interface=INTERFACE` to specify settings interface, default value `Wi-Fi`.
+
+Stop Tor and reset settings using  the following command
 ```sh
 py-tor tor stop
 ```
 
+#### Status
+You can check if everything is ok click [here](https://check.torproject.org/)
+
+
 ## To do
+- `tor status` command
 - Generate torc file and specify configuration file
 - Support for linux
 - Spoof mac address

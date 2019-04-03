@@ -19,7 +19,8 @@ def install():
 @click.argument('service')
 @click.option('--interface', default="Wi-Fi", help="Tor interface, default: 'Wi-Fi'")
 def tor(service, interface):
-    """Command to manage tor process"""
+    """Command to manage tor process, argument 'start', 'stop'"""
+    services = ["start", "stop", "status"]
     if service == "start" or service == "stop":
         tor_command.run(service, interface)
     else:
