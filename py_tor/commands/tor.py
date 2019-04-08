@@ -17,6 +17,11 @@ def run(arg, interface):
 def status():
     try:
         print("STATUS:")
+
+        # Local config
+        
+
+        # Public IP
         session = requests.session()
         session.proxies = {}
         session.proxies['http'] = 'socks5h://localhost:9050'
@@ -28,12 +33,7 @@ def status():
         print("Your IP without Tor: " + oldIp.text)
         print("Your IP with Tor " + newIp.text)
 
-        # Todo: Check view local config and if tor process is up
-        r = session.get("https://check.torproject.org/")
-        print(r.status_code)
-        #index = r.text.index("Sorry. You are not using Tor.")
-        #print(index)
-        print(r.text)
+
 
     except Exception as e:
         print(e)
