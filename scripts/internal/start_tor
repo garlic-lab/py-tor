@@ -4,10 +4,10 @@ INT=$1
 
 sudo -v
 
+echo "Starting Tor process"
 sudo networksetup -setsocksfirewallproxystate $INT off
 sudo networksetup -setsocksfirewallproxy $INT 127.0.0.1 9050 off
 sudo networksetup -setsocksfirewallproxystate $INT on
 echo "Proxy SOCKS 127.0.0.1:9050 enabled"
-echo "Starting tor process"
 
 tor

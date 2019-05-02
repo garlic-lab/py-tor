@@ -45,8 +45,9 @@ Use the following command to startup Tor using default configurations
 ```sh
 py-tor tor start
 ```
+and leaves the process pending.
 
-use `--interface=INTERFACE` to specify settings interface, default value `Wi-Fi`.
+Use `--interface=INTERFACE` to specify settings interface, default value `Wi-Fi`.
 
 Stop Tor and reset settings using  the following command
 ```sh
@@ -54,13 +55,11 @@ py-tor tor stop
 ```
 
 #### Status
-You can check if everything is ok click [here](https://check.torproject.org/) or running the following command:
-```sh
-py-tor tor status
-```
+You can check if everything is ok click [here](https://check.torproject.org/)
 
 
 ## To do
+- `tor status` command
 - Generate torc file and specify configuration file
 - Support for linux
 - Spoof mac address
