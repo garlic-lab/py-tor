@@ -13,7 +13,7 @@ def subprocess_cmd(commands, background, message):
         print(message)
         process = subprocess.Popen("nohup "+ commands +" {0} >/dev/null 2>&1 &", shell=True)
     
-    return process
+    return out_str
 
 def timed_log(lines):
     for line in lines:

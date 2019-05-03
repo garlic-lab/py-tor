@@ -9,19 +9,18 @@ def run(arg, interface):
         rootDir = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
         if arg == "start":
-            command = rootDir + "/scripts/internal/start_tor " + interface   
+            command = "bash " + rootDir + "/scripts/internal/start_tor " + interface   
             background = True  
             message = "Startup Tor" 
             utility.subprocess_cmd(command, background, message)      
         
         if arg == "stop":
-            command = rootDir + "/scripts/internal/stop_tor " + interface
+            command = "bash " + rootDir + "/scripts/internal/stop_tor " + interface
             utility.subprocess_cmd(command, background, message)
 
         if arg == "status":
             command = "bash " + rootDir + "/scripts/internal/status_tor " + interface
             statusResponse = utility.subprocess_cmd(command, background, message)
-            print(statusResponse)
             status()
             
     except Exception as e:

@@ -6,3 +6,5 @@ echo "Interface: " $INT
 if [[ "$OSTYPE" == "darwin"* ]]; then
     RESP=$(networksetup -getsocksfirewallproxy $INT)
 fi
+
+echo $RESP
