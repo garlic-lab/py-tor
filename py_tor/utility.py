@@ -12,6 +12,7 @@ def subprocess_cmd(commands, background, message):
     else:
         print(message)
         process = subprocess.Popen("nohup "+ commands +" {0} >/dev/null 2>&1 &", shell=True)
+        out_str = proc_stdout = process.communicate()
     
     return out_str
 
@@ -19,3 +20,9 @@ def timed_log(lines):
     for line in lines:
         print(line)
         time.sleep(1)
+
+def index_of(element, array):
+    try:
+        return array.index(element)
+    except:
+        return -1

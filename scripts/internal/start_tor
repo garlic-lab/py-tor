@@ -1,8 +1,7 @@
 #!/bin/bash
 
 INT=$1
-
-sudo -v
+echo "Interface: " $INT
 
 echo "Starting Tor process"
 sudo networksetup -setsocksfirewallproxystate $INT off
