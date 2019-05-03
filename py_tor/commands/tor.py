@@ -1,62 +1,59 @@
 import os
+import sys
 import requests 
 import py_tor.utility as utility
 
-START_TOR_MESSAGE = r"""
-
-      ___                         ___           ___                                                ___           ___     
-     /  /\          ___          /  /\         /  /\          ___                    ___          /  /\         /  /\    
-    /  /::\        /__/\        /  /::\       /  /::\        /__/\                  /__/\        /  /::\       /  /::\   
-   /__/:/\:\       \  \:\      /  /:/\:\     /  /:/\:\       \  \:\                 \  \:\      /  /:/\:\     /  /:/\:\  
-  _\_ \:\ \:\       \__\:\    /  /::\ \:\   /  /::\ \:\       \__\:\                 \__\:\    /  /:/  \:\   /  /::\ \:\ 
- /__/\ \:\ \:\      /  /::\  /__/:/\:\_\:\ /__/:/\:\_\:\      /  /::\                /  /::\  /__/:/ \__\:\ /__/:/\:\_\:\
- \  \:\ \:\_\/     /  /:/\:\ \__\/  \:\/:/ \__\/~|::\/:/     /  /:/\:\              /  /:/\:\ \  \:\ /  /:/ \__\/~|::\/:/
-  \  \:\_\:\      /  /:/__\/      \__\::/     |  |:|::/     /  /:/__\/             /  /:/__\/  \  \:\  /:/     |  |:|::/ 
-   \  \:\/:/     /__/:/           /  /:/      |  |:|\/     /__/:/                 /__/:/        \  \:\/:/      |  |:|\/  
-    \  \::/      \__\/           /__/:/       |__|:|~      \__\/                  \__\/          \  \::/       |__|:|~   
-     \__\/                       \__\/         \__\|                                              \__\/         \__\|  
-
-
-                """
-
 def run(arg, interface):
     try:
-        rootDir = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+        background   = False
+        torIsRunning = False 
+        message      = ""
+        rootDir      = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+
         if arg == "start":
-            command = rootDir + "/scripts/internal/start_tor " + interface   
+            command = "bash " + rootDir + "/scripts/internal/start_tor " + interface   
             background = True  
-            message = START_TOR_MESSAGE       
-        else:
-            command = rootDir + "/scripts/internal/stop_tor " + interface
-            background = False
-            message = ""
+            message = "Startup Tor" 
+            utility.subprocess_cmd(command, background, message)      
         
-        utility.subprocess_cmd(command, background, message)
+        if arg == "stop":
+            command = "bash " + rootDir + "/scripts/internal/stop_tor " + interface
+            utility.subprocess_cmd(command, background, message)
+
+        if arg == "status":
+            command = "bash " + rootDir + "/scripts/internal/status_tor " + interface
+            subprocessResp = utility.subprocess_cmd(command, background, message)
+
+            # parse subprocess response by OS
+            if sys.platform == "darwin":
+                subprocessResp = subprocessResp.split(" ")
+                if utility.index_of('Yes', subprocessResp) >= 0:
+                    torIsRunning = True 
+
+            status(torIsRunning)
             
     except Exception as e:
         raise e
 
-def status():
+def status(torIsRunning):
     try:
-        print("STATUS:")
+        ipWithoutTor = requests.get('https://api.ipify.org/?format=json')
 
-        # Local config
-        
+        if torIsRunning:
+            print("Tor is running 👻")
 
-        # Public IP
-        session = requests.session()
-        session.proxies = {}
-        session.proxies['http'] = 'socks5h://localhost:9050'
-        session.proxies['https'] = 'socks5h://localhost:9050'
+            session = requests.session()
+            session.proxies = {}
+            session.proxies['http'] = 'socks5h://localhost:9050'
+            session.proxies['https'] = 'socks5h://localhost:9050'
 
-        oldIp = requests.get('https://api.ipify.org/?format=json')
-        newIp = session.get('https://api.ipify.org/?format=json')
+            ipWithTor = session.get('https://api.ipify.org/?format=json')
 
-        print("Your IP without Tor: " + oldIp.text)
-        print("Your IP with Tor " + newIp.text)
-
-
+            print("Your public IP without Tor: " + ipWithoutTor.text)
+            print("Your public IP with Tor: " + ipWithTor.text)
+        else:
+            print("Tor is down 💩")
+            print("Your public IP: " + ipWithoutTor.text)
 
     except Exception as e:
         print(e)
-        print("NO....")
