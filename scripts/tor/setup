@@ -1,0 +1,31 @@
+#!/bin/bash
+
+INT=$1
+LOCAL_RANGE=$2
+RESP="OSTYPE not supported"
+echo "Interface: " $INT
+
+echo "Setup local configurations..."
+
+if [[ "$OSTYPE" == "darwin"* ]]; then
+    sudo networksetup -setsocksfirewallproxystate $INT off
+    sudo networksetup -setsocksfirewallproxy $INT 127.0.0.1 9050 off
+    sudo networksetup -setsocksfirewallproxystate $INT on
+
+    RESP="Proxy SOCKS 127.0.0.1:9050 enabled"
+fi
+
+if [[ "$OSTYPE" == "linux-gnu"* ]]; then
+    gsettings set org.gnome.system.proxy mode 'manual'
+    gsettings set org.gnome.system.proxy.socks port '9050'
+    gsettings set org.gnome.system.proxy.socks host 'localhost'
+    gsettings set org.gnome.system.proxy ignore-hosts "['localhost', '127.0.0.0/8', '${LOCAL_RANGE}', '::1']"
+
+    grep -xF 'forward-socks5 / localhost:9050 .' /etc/privoxy/config || echo 'forward-socks5 / localhost:9050 .' >> /etc/privoxy/config
+    grep -xF 'forward-socks4 / localhost:9050 .' /etc/privoxy/config || echo 'forward-socks4 / localhost:9050 .' >> /etc/privoxy/config
+    grep -xF 'forward-socks4a / localhost:9050 .' /etc/privoxy/config || echo 'forward-socks4a / localhost:9050 .' >> /etc/privoxy/config
+
+    RESP="Proxy SOCKS 127.0.0.1:9050 enabled"
+fi
+
+echo $RESP

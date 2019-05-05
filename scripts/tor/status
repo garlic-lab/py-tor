@@ -1,10 +1,17 @@
 #!/bin/bash
 
 INT=$1
+RESP="OSTYPE not supported"
 echo "Interface: " $INT
+
+echo "Get proxy settings"
 
 if [[ "$OSTYPE" == "darwin"* ]]; then
     RESP=$(networksetup -getsocksfirewallproxy $INT)
+fi
+
+if [[ "$OSTYPE" == "linux-gnu"* ]]; then
+    RESP=$(service tor status)
 fi
 
 echo $RESP
