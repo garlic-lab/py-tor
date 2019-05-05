@@ -43,7 +43,7 @@ so you can use the command `py-tor install` to install CLI dependencies.
 #### Startup
 Use the following command to startup Tor using default configurations
 ```sh
-sudo py-tor tor start
+py-tor tor start
 ```
 and leaves the process pending.
 
@@ -62,6 +62,7 @@ py-tor tor status
 
 
 ## To do
+- Add `background` argument
 - Generate torc file and specify configuration file
 - Support for linux
 - Spoof mac address
