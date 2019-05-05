@@ -1,0 +1,27 @@
+#!/bin/bash
+set -ex
+
+if [ "$(command -v tor)" == "" ]; then
+    if [[ "$OSTYPE" == "darwin"* ]]; then
+        brew install tor
+        RESP="Tor installed on Mac"
+    fi
+
+    if [[ "$OSTYPE" == "linux-gnu"* ]]; then
+        sudo apt-get install tor privoxy
+        RESP="Tor installed on Linux"
+    fi
+
+    printf "\n$RESP"
+else
+  printf "\nTor already installed\n"
+fi
+
+PARENT_PATH=$(dirname $(cd $(dirname $0); pwd -P))
+
+pushd $PARENT_PATH
+
+pip3 install -r requirements.txt
+pip3 --no-cache-dir install -e .
+ 
+popd

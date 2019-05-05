@@ -1,0 +1,26 @@
+#!/bin/bash
+
+INT=$1
+RESP="OSTYPE not supported, network setup not updated"
+
+echo "Interface: " $INT
+
+if [[ "$OSTYPE" == "darwin"* ]]; then
+    sudo networksetup -setsocksfirewallproxystate $INT off
+    PID=$(sudo lsof -i tcp:9050 | grep tor | head -1 | awk '{ print $2 }')
+
+    if [[ "$PID" == "" ]]; then
+        echo "Tor process is not running, can't drop it"
+    else
+        sudo kill -9 $PID
+        echo "Killed tor process"
+    fi
+fi
+
+if [[ "$OSTYPE" == "linux-gnu"* ]]; then
+    gsettings set org.gnome.system.proxy mode 'none'
+    sudo service tor stop
+fi
+
+
+echo "Disabled proxy SOCKS 127.0.0.1:9050"

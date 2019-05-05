@@ -1,70 +1,54 @@
-# py-tor
-👻 Tool quick and dirty to setup and manage Tor process. Stay hungry stay anonymous.
+# Pumpkin
+CLI tool quick and dirty to setup and manage Tor, MAC spoofing, ...
+
+![alt text](https://image.tmdb.org/t/p/original/SGHiBoqC0BRPBTZnUMQry5nAlS.jpg)
+*"For each of man's evils a special demon exists"*
 
 ## Supported OS
-- OS X
+- MacOS
+- Linux
 
 ## Prerequisite
-- Python more than [3.7.2](https://www.python.org/downloads/release/python-372/)
+- Python 3 (more than [3.7.2](https://www.python.org/downloads/release/python-372/))
+
 
 ## Installation
-
-Pull repository using the following commands:
+Pull this repository using the following commands:
 ```sh
-git clone https://github.com/garlic-lab/py-tor.git
-cd py-tor/
+git clone https://github.com/lorenzodisidoro/pumpkin.git
 ```
 
-install `py-tor` command using `install_cli` script
+go to pumpkin directory and install CLI using `install` script
 ```sh
-./scripts/install_cli
+$ bash ./scripts/install
 ```
 
-## Usage commands
-### Install
-Run `py-tor --help` command should display this
-```sh
-$ py-tor --help                   
-Usage: py-tor [OPTIONS] COMMAND [ARGS]...
+## Usage
 
-  CLI to setup and manage Tor process
-
-Options:
-  --help  Show this message and exit.
-
-Commands:
-  install  Install CLI dependencies
-  tor      Command to manage tor process
-```
-
-so you can use the command `py-tor install` to install CLI dependencies.
-
-### Tor
+### Tor command
 #### Startup
 Use the following command to startup Tor using default configurations
 ```sh
-sudo py-tor tor start
+pumpkin tor start
 ```
-and leaves the process pending.
 
-Use `--interface=INTERFACE` to specify settings interface, default value `Wi-Fi`.
+you can use the following options
+- `--interface=INTERFACE` network interface (default value `Wi-Fi`)
+- `--background=True` use to run process in background (default `False`)
 
-Stop Tor and reset settings using  the following command
+#### Stop 
+To stop Tor process and reset settings using the following command
 ```sh
-py-tor tor stop
+pumpkin tor stop
 ```
 
 #### Status
 You can check if everything is ok click [here](https://check.torproject.org/) or use the following command
 ```sh
-py-tor tor status
+pumpkin tor status
 ```
 
-
-## To do
-- Generate torc file and specify configuration file
-- Support for linux
-- Spoof mac address
-
 ## License
-This project is licensed under the MIT License - see the [LICENSE](https://github.com/garlic-lab/py-tor/blob/master/LICENSE) file for details.
+This project is licensed under the MIT License - see the [LICENSE](https://github.com/lorenzodisidoro/pumpkin/blob/master/LICENSE) file for details.
+
+*"Stay hungry stay anonymous."*
