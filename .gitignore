@@ -107,3 +107,6 @@ settings.json
 .mypy_cache/
 .vscode/
 settings.json
+
+# log
+*.out

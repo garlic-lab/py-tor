@@ -11,7 +11,7 @@ def subprocess_cmd(commands, background, message):
         timed_log(out_str.split('\n'))
     else:
         print(message)
-        process = subprocess.Popen("nohup "+ commands +" {0} >/dev/null 2>&1 &", shell=True)
+        process = subprocess.Popen("nohup "+ commands +" &", shell=True)
         out_str = proc_stdout = process.communicate()
     
     return out_str

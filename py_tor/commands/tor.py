@@ -11,10 +11,9 @@ def run(arg, interface):
         rootDir      = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
         if arg == "start":
-            command = "bash " + rootDir + "/scripts/internal/start_tor " + interface   
-            background = True  
-            message = "Startup Tor" 
-            utility.subprocess_cmd(command, background, message)      
+            command = "sudo bash " + rootDir + "/scripts/internal/setup_tor " + interface   
+            utility.subprocess_cmd(command, False, 'Setup local configurations')      
+            utility.subprocess_cmd('tor', True, 'Startup Tor process')
         
         if arg == "stop":
             command = "bash " + rootDir + "/scripts/internal/stop_tor " + interface
@@ -37,20 +36,22 @@ def run(arg, interface):
 
 def status(torIsRunning):
     try:
-        ipWithoutTor = requests.get('https://api.ipify.org/?format=json')
+        ipifyHost  = 'https://api.ipify.org'
+        localSocks = 'socks5h://localhost:9050'
+        ipWithoutTor = requests.get(ipifyHost)
 
         if torIsRunning:
             print("Tor is running 👻")
 
             session = requests.session()
             session.proxies = {}
-            session.proxies['http'] = 'socks5h://localhost:9050'
-            session.proxies['https'] = 'socks5h://localhost:9050'
+            session.proxies['http']  = localSocks
+            session.proxies['https'] = localSocks
 
-            ipWithTor = session.get('https://api.ipify.org/?format=json')
+            ipWithTor = session.get(ipifyHost)
 
             print("Your public IP without Tor: " + ipWithoutTor.text)
-            print("Your public IP with Tor: " + ipWithTor.text)
+            print("Your public IP with Tor: "    + ipWithTor.text)
         else:
             print("Tor is down 💩")
             print("Your public IP: " + ipWithoutTor.text)
